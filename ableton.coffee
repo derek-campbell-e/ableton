@@ -27,7 +27,8 @@ onLoad = (callback, parseMode) ->
       when 'xmlstring'
         callback(null, xml)
       when 'dom'
-        dom = cheerio.load(xml)
+        options = {xmlMode: true}
+        dom = cheerio.load(xml, options)
         callback(null, dom)
       when 'js'
         parser = new Parser(mergeAttrs: yes)
@@ -45,7 +46,7 @@ class Ableton
       .pipe(concat(onLoad(callback, @parseMode)))
 
   write: (xml, callback) ->
-    unless data
+    unless xml
       callback(new Error('No data to write'))
       return
 
